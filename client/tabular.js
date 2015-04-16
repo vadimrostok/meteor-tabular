@@ -5,8 +5,32 @@ Template.tabular.helpers({
     // We remove the "table" and "selector" attributes and assume the rest belong
     // on the <table> element
     return _.omit(this, "table", "selector");
+  },
+  hasData: function () {
+    return Template.instance().hasData.get()
+  },
+  fullDataLoaded: function () {
+    return Template.instance().fullDataLoaded.get()
+  },
+  loadingTemplate: function () {
+    data = Template.currentData()
+    if (data.table && data.table.options.loadingTemplateName) {
+      return data.table.options.loadingTemplateName;
+    }
+    return "tabularLoading"
+  },
+  loadingTemplateData: function () {
+    data = Template.currentData()
+    if (data.table && data.table.options.loadingTemplateData) {
+      return data.table.options.loadingTemplateData;
+    }
   }
 });
+
+Template.tabular.created = function () {
+  this.hasData = new ReactiveVar(false);
+  this.fullDataLoaded = new ReactiveVar(false);
+};
 
 Template.tabular.rendered = function () {
   var template = this,
@@ -179,6 +203,9 @@ Template.tabular.rendered = function () {
     template.tabular.recordsTotal = tableInfo.recordsTotal || 0;
     template.tabular.recordsFiltered = tableInfo.recordsFiltered || 0;
 
+    template.hasData.set(tableInfo.recordsTotal > 0);
+    template.fullDataLoaded.set(false);
+
     // In some cases, there is no point in subscribing to nothing
     if (_.isEmpty(tableInfo) ||
         template.tabular.recordsTotal === 0 ||
@@ -190,7 +217,10 @@ Template.tabular.rendered = function () {
       template.tabular.docPub.get(),
       tableName,
       tableInfo.ids || [],
-      template.tabular.fields
+      template.tabular.fields,
+      function () {
+        template.fullDataLoaded.set(true);
+      }
     );
   });
 

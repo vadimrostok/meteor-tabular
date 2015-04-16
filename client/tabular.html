@@ -1,6 +1,26 @@
 <template name="tabular">
-  <div>
+  <div class="{{#unless fullDataLoaded}}hide{{/unless}}">
     {{! somehow the div wrapper helps the table get cleaned up properly for example when switching between routes}}
     <table {{atts}}></table>
+  </div>
+  {{#unless fullDataLoaded}}
+  {{> UI.dynamic template=loadingTemplate data=loadingTemplateData}}
+  {{/unless}}
+</template>
+
+<template name="tabularLoading">
+  <div class="page-loading">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="error-container">
+          <div class="error-full-screen">
+            <div class="spinner-main">
+              <div class="spinner-inside"></div>
+              {{i18n "loadingInProgerss"}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>

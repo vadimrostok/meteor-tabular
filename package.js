@@ -1,7 +1,7 @@
 /* global Package */
 
 Package.describe({
-  name: 'aldeed:tabular',
+  name: 'castorp:tabular',
   summary: 'Datatables for large or small datasets in Meteor',
   version: '1.1.0',
   git: 'https://github.com/aldeed/meteor-tabular.git'
