@@ -210,6 +210,7 @@ Template.tabular.rendered = function () {
     if (_.isEmpty(tableInfo) ||
         template.tabular.recordsTotal === 0 ||
         template.tabular.recordsFiltered === 0) {
+      template.fullDataLoaded.set(true);
       return;
     }
 
