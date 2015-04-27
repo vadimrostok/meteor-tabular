@@ -3,7 +3,7 @@
 Package.describe({
   name: 'castorp:tabular',
   summary: 'Datatables for large or small datasets in Meteor',
-  version: '1.1.0',
+  version: '1.1.0_1',
   git: 'https://github.com/aldeed/meteor-tabular.git'
 });
 
